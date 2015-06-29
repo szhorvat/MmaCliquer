@@ -1,16 +1,15 @@
-(* Mathematica Package         *)
-(* Created by IntelliJ IDEA    *)
+(* Mathematica Package           *)
 
-(* :Title: Cliquer     *)
-(* :Context: Cliquer`  *)
-(* :Author: szhorvat            *)
-(* :Date: 15-06-04              *)
+(* :Title: Cliquer               *)
+(* :Context: Cliquer`            *)
+(* :Author: szhorvat             *)
+(* :Date: 15-06-04               *)
 
-(* :Package Version: 1.0       *)
-(* :Mathematica Version:       *)
-(* :Copyright: (c) 2015 szhorvat *)
-(* :Keywords:                  *)
-(* :Discussion:                *)
+(* :Package Version: 0.1         *)
+(* :Mathematica Version: 10.0    *)
+(* :Copyright: (c) 2015 Szabolcs Horvát *)
+(* :Keywords:                    *)
+(* :Discussion:                  *)
 
 BeginPackage["Cliquer`", {"CCompilerDriver`"}]
 
@@ -60,7 +59,7 @@ Cliquer::loop  = "Warning: self-loops present in graph. Converting to simple gra
 
 iCliquerDistribution[g_, min_, max_, maximal_] :=
     Module[{gr},
-      If[VertexCount[g] == 0, Return[ConstantArray[0, max]]]; (* null graph *)
+      If[VertexCount[g] == 0, Return[ConstantArray[0, max]]]; (* null graph: no edges or vertices *)
       If[MixedGraphQ[g], Message[Cliquer::mixed]; Return[$Failed]];
 
       If[Not@LoopFreeGraphQ[g], Message[Cliquer::loop]];
@@ -73,7 +72,7 @@ iCliquerDistribution[g_, min_, max_, maximal_] :=
         ];
       ];
 
-      If[EmptyGraphQ[gr], (* no edges *)
+      If[EmptyGraphQ[gr], (* no edges, at least one vertex *)
         Return@If[min == 1,
           PadRight[{VertexCount[g]}, max], (* in the empty graph, size-1 cliques are maximal *)
           ConstantArray[0, max]
